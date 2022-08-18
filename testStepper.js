@@ -9,31 +9,42 @@
  */
 
 var speed        = 150; // RPM
-var directionPin = 7; // Pin used for direction
-var stepPin      = 11; // Pin used for stepping
+var directionPin1 = 7; // Pin used for direction
+var stepPin1      = 11; // Pin used for stepping
+
+var directionPin2 = 13; // Pin used for direction
+var stepPin2      = 15; // Pin used for stepping
 
 console.log("Starting stepper-wiringpi - digital_ForwardBackward");
 
 var stepperWiringPi = require("./stepperdrv");
-var motor1 = stepperWiringPi.setupDigital(200, stepPin, directionPin);
-var direction = stepperWiringPi.FORWARD;
+
+var motor1 = stepperWiringPi.setupDigital(200, stepPin1, directionPin1);
+var direction1 = stepperWiringPi.FORWARD;
+var motor2 = stepperWiringPi.setupDigital(200, stepPin2, directionPin2);
+var direction2 = stepperWiringPi.FORWARD;
+
 
 console.log("Globals: FORWARD=%d, BACKWARD=%d", stepperWiringPi.FORWARD, stepperWiringPi.BACKWARD);
 
 function changeDirection() {
   console.log("Changing direction from %d", direction);
-  if (direction == stepperWiringPi.FORWARD) {
-    direction = stepperWiringPi.BACKWARD;
+  if (direction1 == stepperWiringPi.FORWARD) {
+    direction1 = stepperWiringPi.BACKWARD;
     motor1.backward();
+    motor2.forward();
+
   } else {
-    direction = stepperWiringPi.FORWARD;
+    direction1 = stepperWiringPi.FORWARD;
     motor1.forward();
+    motor2.backward();
   }
   setTimeout(changeDirection.bind(this), 5000);
 } // End of changeDirection
 
 debugger;
 motor1.setSpeed(speed);
+motor2.setSpeed(speed);
 
 changeDirection();
 
