@@ -9,8 +9,8 @@ var STEPS_PER_REV       = 200
 var MICROSTEPS_PER_STEP = 8
 var RPMS                = 104.0
 var MICROSECONDS_PER_MICROSTEP = (1000000/(STEPS_PER_REV * MICROSTEPS_PER_STEP)/(RPMS / 60))
-var stepPause           = 1
-//var stepPause           = MICROSECONDS_PER_MICROSTEP
+//var stepPause           = 1
+var stepPause           = MICROSECONDS_PER_MICROSTEP
 
 
 function sleep(milliseconds) {
@@ -21,10 +21,10 @@ function sleep(milliseconds) {
 }
 
 function move() {
-    gpio.write(stepPin, rpio.HIGH) 
-    rpio.msleep(stepPause);  
-    gpio.write(stepPin, rpio.LOW) 
-    rpio.msleep(stepPause);     
+    gpio.write(stepPin, gpio.HIGH) 
+    gpio.msleep(stepPause);  
+    gpio.write(stepPin, gpio.LOW) 
+    gpio.msleep(stepPause);     
     if(!stopMotors) move(); 
 }
 
@@ -36,20 +36,20 @@ function stopMotor() {
 // Changing direction of motor 
 function left() {  
     stopMotors = false;
-    gpio.write(directionPin, rpio.HIGH)        
+    gpio.write(directionPin, gpio.HIGH)        
     console.log("Left")
     move();  
 }
 
 function right() {
     stopMotors = false;  
-    gpio.write(directionPin, rpio.LOW)        
+    gpio.write(directionPin, gpio.LOW)        
     console.log("Right")
     move();  
 }
 
-gpio.open(stepPin, rpio.OUTPUT);
-gpio.open(directionPin, rpio.OUTPUT);
+gpio.open(stepPin, gpio.OUTPUT);
+gpio.open(directionPin, gpio.OUTPUT);
 
 console.log("Pause length:" + stepPause)
 
